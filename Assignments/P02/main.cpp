@@ -1,4 +1,13 @@
 /**
+*
+*
+*  Author:           Sangam Lamichhane
+*  Email:            slamichhane0602@my.msutexas.edu
+*  Label:            P02
+*  Title:            Searching in Json file using Getch function
+*  Course:           CMPS 3013
+*  Semester:         Spring 2024
+
  * This program uses a "getch" function which means "get character".
  * However, getch does not print the character to the terminal, it
  * lets you decide what to do based on what character you are pressing.
@@ -19,7 +28,7 @@
  *                            the two (in this context).
  *
  
- * searching an array of words for partial matches.
+ * searching an array of words for initial matches.
  *
  */
 
