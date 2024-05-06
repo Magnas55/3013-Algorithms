@@ -12,6 +12,8 @@
  * However, getch does not print the character to the terminal, it
  * lets you decide what to do based on what character you are pressing.
  *
+ * It also displays the meaning of the matched substring. 
+ *
  * You can test which characters are being pressed using their ascii values.
  *
  * An ascii table here should be helpful
@@ -27,7 +29,7 @@
  *                            so we can't distinguish between
  *                            the two (in this context).
  *
- 
+
  * searching an array of words for initial matches.
  *
  */
@@ -41,6 +43,8 @@
 #include <iostream>
 #include <time.h>
 #include <vector>
+#include <map>
+
 
 using namespace std;
 using namespace rang;
@@ -155,7 +159,7 @@ void printMenu(vector<string> options) {
  * Returns:
  *      void
  */
-void printHighlightedSubstr(string word, string substr, int loc) {
+void printHighlightedSubstr(string word, string substr, int loc,string value) {
   for (int j = 0; j < word.size(); j++) {
     // if we are printing the substring turn it red
     if (j >= loc && j <= loc + substr.size() - 1) {
@@ -165,6 +169,7 @@ void printHighlightedSubstr(string word, string substr, int loc) {
       cout << fg::blue << word[j] << fg::reset << style::reset;
     }
   }
+  
 }
 
 /**
@@ -213,7 +218,7 @@ int main() {
   string key;                      // string version of char for printing
   string substr = "";              // var to concatenate letters to
   json dic = loadJsonFile("./data/dictionary.json"); // array of animal names
-  vector<string> matches; // any matches found in vector of animals
+  map<string,string> matches; // any matches found in vector of animals
   int loc;                // location of substring to change its color
   bool deleting = false;
   string str = "";
@@ -281,17 +286,25 @@ int main() {
         c = tolower(c);
       // This prints out all found matches
       int count=0;
-      for (int i = 0; i < matches.size(); i++) {
+      map<string, string>::iterator it = matches.begin();
+      while (it != matches.end()) {
+
+      //for (int i = 0; i < matches.size(); i++) {
         if (count >10)
           break;
         // find the substring in the substr
-        loc = matches[i].find(substr);
+        loc = it->first.find(substr);
         // if its found
         if (loc != string::npos) {
-          printHighlightedSubstr(matches[i], substr, loc);
+          printHighlightedSubstr(it->first, substr, loc,it->second);
         }
+        if (count == 0) {
+          cout<< "="<<it->second<<endl;
+        }
+        //cout <<it->second<<endl;
         cout << " ";
         count=count+1;
+        ++it;
       }
       cout << fg::reset << endl << endl << endl << endl;
       if (matches.size() == 1) {
